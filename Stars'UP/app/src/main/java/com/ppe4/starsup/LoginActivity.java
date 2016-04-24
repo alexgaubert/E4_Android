@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String URL = "http://192.168.1.88/stars_up/user_control.php";
+    private static final String URL = "http://192.168.1.88/stars_up/login.php";
     private EditText ETnomUtilisateur, ETMDP;
     private Button Bconnexion;
     private RequestQueue fileRequete;
