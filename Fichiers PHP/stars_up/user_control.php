@@ -1,5 +1,6 @@
 <?php
-	include_once 'connection.php';
+	session_start();
+	include_once 'config.php';
 
 	$utilisateur = new Utilisateur();
 
@@ -28,8 +29,12 @@
 		}
 
 		public function utilisateur_existe($nomUtilisateur, $MDP) {
-			$requete = "SELECT prenom FROM inspecteur WHERE nomutilisateur='$nomUtilisateur' AND motdepasse='$MDP'";
+			$requete = "SELECT prenom, id_inspecteur FROM inspecteur WHERE nomutilisateur='$nomUtilisateur' AND motdepasse='$MDP'";
 			$resultat = mysqli_query($this->connexion, $requete);
+			while($data = mysqli_fetch_assoc($resultat))
+				{
+					$_SESSION['id_inspecteur'] = $data['id_inspecteur'];
+				}
 
 			if(mysqli_num_rows($resultat) > 0) {
 				$json['succes'] = 'Vous vous êtes bien connecté, bienvenue '.$nomUtilisateur;
