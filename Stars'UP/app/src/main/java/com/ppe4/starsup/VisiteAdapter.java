@@ -22,7 +22,7 @@ public class VisiteAdapter extends ArrayAdapter<Visite> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.ligne_visite,parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_visite,parent, false);
         }
 
         VisiteViewHolder viewHolder = (VisiteViewHolder) convertView.getTag();

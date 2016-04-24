@@ -6,8 +6,8 @@
         android:layout_height="wrap_content"
         android:text="Nom"
         android:id="@+id/TVnom"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+         android:layout_alignParentTop="true"
+         android:layout_toEndOf="@+id/textView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,5 +16,13 @@
         android:id="@+id/TVnote"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/TVnom" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID"
+        android:id="@+id/TVid"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
