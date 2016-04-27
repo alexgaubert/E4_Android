@@ -23,11 +23,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String URL = "http://192.168.1.88/stars_up/login.php";
     private EditText ETnomUtilisateur, ETMDP;
     private Button Bconnexion;
+
+    private static final String URL = "http://192.168.1.88/stars_up/login.php";
+
     private RequestQueue fileRequete;
     private StringRequest requete;
+    private JSONObject objetJSON;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         ETnomUtilisateur = (EditText) findViewById(R.id.ETnomUtilisateur);
         ETMDP = (EditText) findViewById(R.id.ETMDP);
         Bconnexion = (Button) findViewById(R.id.Bconnexion);
+
+        final MonApplication mApp = ((MonApplication)getApplicationContext());
+
         fileRequete = Volley.newRequestQueue(this);
 
         Bconnexion.setOnClickListener(new View.OnClickListener() {
@@ -46,16 +52,16 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String reponse) {
                         try {
-                            JSONObject objetJSON = new JSONObject(reponse);
+                            objetJSON = new JSONObject(reponse);
+
                             if (objetJSON.names().get(0).equals("succes")) {
+                                mApp.setId_session(objetJSON.getString("id_inspecteur"));
                                 Toast.makeText(getApplicationContext(), objetJSON.getString("succes"), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), ListeActivity.class));
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(getApplicationContext(), objetJSON.getString("erreur"), Toast.LENGTH_SHORT).show();
                             }
-                        }
-                        catch (JSONException exception) {
+                        } catch (JSONException exception) {
                             exception.printStackTrace();
                         }
                     }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 24 Avril 2016 à 03:47
+-- Généré le :  Mer 27 Avril 2016 à 03:10
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -363,6 +363,8 @@ CREATE TABLE IF NOT EXISTS `visite` (
   `HEURE` time DEFAULT NULL,
   `NBETOILESPLUS` int(11) DEFAULT NULL,
   `COMMENTAIRE` text,
+  `test1` varchar(20) NOT NULL,
+  `test2` varchar(20) NOT NULL,
   PRIMARY KEY (`ID_VISITE`),
   KEY `I_FK_VISITE_INSPECTEUR` (`ID_INSPECTEUR`),
   KEY `I_FK_VISITE_HEBERGEMENT` (`ID_HEBERGEMENT`)
@@ -372,8 +374,10 @@ CREATE TABLE IF NOT EXISTS `visite` (
 -- Contenu de la table `visite`
 --
 
-INSERT INTO `visite` (`ID_VISITE`, `ID_INSPECTEUR`, `ID_HEBERGEMENT`, `DATE_VISITE`, `HEURE`, `NBETOILESPLUS`, `COMMENTAIRE`) VALUES
-(1, 1, 1, '2016-04-26', '18:00:00', NULL, NULL);
+INSERT INTO `visite` (`ID_VISITE`, `ID_INSPECTEUR`, `ID_HEBERGEMENT`, `DATE_VISITE`, `HEURE`, `NBETOILESPLUS`, `COMMENTAIRE`, `test1`, `test2`) VALUES
+(1, 2, 1, NULL, NULL, NULL, NULL, 'ah oui', 'peut etre'),
+(2, 2, 3, NULL, NULL, NULL, NULL, 'babouche', 'caca'),
+(3, 2, 2, NULL, NULL, NULL, NULL, 'babibule', 'truc');
 
 --
 -- Contraintes pour les tables exportées

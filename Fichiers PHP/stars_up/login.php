@@ -1,18 +1,16 @@
 <?php
-	session_start();
-	include_once 'config.php';
+	include 'config.php';
 
 	$utilisateur = new Utilisateur();
 
-	if(isset($_POST['nomUtilisateur'], $_POST['MDP'])) {
+	if(isset($_POST['nomUtilisateur'], $_POST['MDP'])) { // Si le nom et le mdp récupérés ne sont pas nuls
 		$nomUtilisateur = $_POST['nomUtilisateur'];
 		$MDP = $_POST['MDP'];
 		
-		if(!empty($nomUtilisateur) && !empty($MDP)) {
-			$encrypted_password = md5($MDP);
-			$utilisateur->utilisateur_existe($nomUtilisateur, $MDP);
+		if(!empty($nomUtilisateur) && !empty($MDP)) { // Si les champs ne sont pas vides
+			$utilisateur->verif_utilisateur($nomUtilisateur, $MDP);
 		}
-		else {
+		else { // Sinon si les champs sont vides
 			$json['erreur'] = 'Veuillez saisir vos identifiants';
 			echo json_encode($json);
 			mysqli_close($this->connexion);
@@ -28,20 +26,18 @@
 			$this->connexion = $this->bdd->getConnexion();
 		}
 
-		public function utilisateur_existe($nomUtilisateur, $MDP) {
-			$requete = "SELECT prenom, id_inspecteur FROM inspecteur WHERE nomutilisateur='$nomUtilisateur' AND motdepasse='$MDP'";
+		public function verif_utilisateur($nomUtilisateur, $MDP) {
+			$requete = "SELECT id_inspecteur, prenom, nom FROM inspecteur WHERE nomutilisateur='$nomUtilisateur' AND motdepasse='$MDP'";
 			$resultat = mysqli_query($this->connexion, $requete);
-			while($data = mysqli_fetch_assoc($resultat))
-				{
-					$_SESSION['id_inspecteur'] = $data['id_inspecteur'];
-				}
+			$donnee = mysqli_fetch_assoc($resultat);
 
-			if(mysqli_num_rows($resultat) > 0) {
-				$json['succes'] = 'Vous vous êtes bien connecté, bienvenue '.$nomUtilisateur;
+			if(mysqli_num_rows($resultat) != 0) { // Si les identifiants correspondent bien
+				$json['succes'] = 'Vous vous êtes bien connectés. Bienvenue '.$donnee['prenom'].' '.$donnee['nom'];
+				$json['id_inspecteur'] = $donnee['id_inspecteur'];
 				echo json_encode($json);
 				mysqli_close($this->connexion);
 			}
-			else {
+			else { // Sinon si les identifiants ne correspondent pas
 				$json['erreur'] = 'Les identifiants sont incorrects, veuillez réessayer';
 				echo json_encode($json);
 				mysqli_close($this->connexion);
