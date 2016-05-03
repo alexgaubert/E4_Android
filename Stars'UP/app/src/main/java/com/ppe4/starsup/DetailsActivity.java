@@ -55,7 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
         Intent I = getIntent();
         Bundle bundle = I.getExtras();
 
-        TVnom.setText((String)bundle.get("id_visite"));
+        TVnom.setText((String)bundle.get("test1"));
 
         Bvalider.setOnClickListener(new View.OnClickListener() {
             @Override

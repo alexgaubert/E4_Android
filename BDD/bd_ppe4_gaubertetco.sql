@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 27 Avril 2016 à 03:10
+-- Généré le :  Mar 03 Mai 2016 à 09:44
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -75,25 +75,6 @@ CREATE TABLE IF NOT EXISTS `connexion` (
   `id_connexion` int(11) NOT NULL,
   `motdepasse` varchar(15) NOT NULL,
   PRIMARY KEY (`id_connexion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `contre_visite`
---
-
-CREATE TABLE IF NOT EXISTS `contre_visite` (
-  `ID_VISITE` int(11) NOT NULL,
-  `ID_CONTREVISITE` int(11) NOT NULL,
-  `ID_INSPECTEUR` int(11) DEFAULT NULL,
-  `DATE_CONTREVISTITE` date DEFAULT NULL,
-  `HEURE` time DEFAULT NULL,
-  `NBETOILESMOINS` int(11) DEFAULT NULL,
-  `COMMENTAIRES` text,
-  PRIMARY KEY (`ID_VISITE`,`ID_CONTREVISITE`),
-  KEY `I_FK_CONTRE_VISITE_INSPECTEUR` (`ID_INSPECTEUR`),
-  KEY `I_FK_CONTRE_VISITE_VISITE` (`ID_VISITE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -356,28 +337,37 @@ CREATE TABLE IF NOT EXISTS `typecuisine` (
 --
 
 CREATE TABLE IF NOT EXISTS `visite` (
-  `ID_VISITE` int(11) NOT NULL,
-  `ID_INSPECTEUR` int(11) DEFAULT NULL,
-  `ID_HEBERGEMENT` int(11) NOT NULL,
-  `DATE_VISITE` date DEFAULT NULL,
-  `HEURE` time DEFAULT NULL,
-  `NBETOILESPLUS` int(11) DEFAULT NULL,
-  `COMMENTAIRE` text,
-  `test1` varchar(20) NOT NULL,
-  `test2` varchar(20) NOT NULL,
-  PRIMARY KEY (`ID_VISITE`),
-  KEY `I_FK_VISITE_INSPECTEUR` (`ID_INSPECTEUR`),
-  KEY `I_FK_VISITE_HEBERGEMENT` (`ID_HEBERGEMENT`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_visite` int(20) NOT NULL AUTO_INCREMENT,
+  `id_inspecteur` varchar(20) DEFAULT NULL,
+  `id_hebergement` varchar(20) DEFAULT NULL,
+  `date_visite` varchar(20) DEFAULT NULL,
+  `heure` varchar(20) DEFAULT NULL,
+  `nbetoileplus` varchar(20) DEFAULT NULL,
+  `commentaire` varchar(20) DEFAULT NULL,
+  `test1` varchar(20) DEFAULT NULL,
+  `test2` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id_visite`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
 
 --
 -- Contenu de la table `visite`
 --
 
-INSERT INTO `visite` (`ID_VISITE`, `ID_INSPECTEUR`, `ID_HEBERGEMENT`, `DATE_VISITE`, `HEURE`, `NBETOILESPLUS`, `COMMENTAIRE`, `test1`, `test2`) VALUES
-(1, 2, 1, NULL, NULL, NULL, NULL, 'ah oui', 'peut etre'),
-(2, 2, 3, NULL, NULL, NULL, NULL, 'babouche', 'caca'),
-(3, 2, 2, NULL, NULL, NULL, NULL, 'babibule', 'truc');
+INSERT INTO `visite` (`id_visite`, `id_inspecteur`, `id_hebergement`, `date_visite`, `heure`, `nbetoileplus`, `commentaire`, `test1`, `test2`) VALUES
+(13, '2', NULL, NULL, NULL, '4.0', 'ceci est un commenta', 'A la petite chaise', NULL),
+(14, '2', NULL, NULL, NULL, NULL, NULL, 'Le gourmandin', NULL),
+(15, '2', NULL, NULL, NULL, '3.0', 'ceci est un commenta', 'La bouche des gouts', NULL),
+(16, '2', NULL, NULL, NULL, NULL, NULL, 'Mia cucina', NULL),
+(17, '2', NULL, NULL, NULL, NULL, NULL, 'Le bouche a oreille', NULL),
+(18, '2', NULL, NULL, NULL, NULL, NULL, 'Panini Gourmand', NULL),
+(19, '2', NULL, NULL, NULL, NULL, NULL, 'La boulangerie', NULL),
+(20, '2', NULL, NULL, NULL, NULL, NULL, 'La baraque a frites', NULL),
+(21, '2', NULL, NULL, NULL, NULL, NULL, 'Le patio', NULL),
+(22, '2', NULL, NULL, NULL, NULL, NULL, 'Flunch', NULL),
+(23, '2', NULL, NULL, NULL, NULL, NULL, 'McDonalds', NULL),
+(24, '2', NULL, NULL, NULL, NULL, NULL, 'La Cambuse', NULL),
+(25, '2', NULL, NULL, NULL, NULL, NULL, 'Le cucaracha', NULL),
+(26, '2', NULL, NULL, NULL, NULL, NULL, 'La chassagnette', NULL);
 
 --
 -- Contraintes pour les tables exportées
@@ -394,13 +384,6 @@ ALTER TABLE `camping`
 --
 ALTER TABLE `chambrehotes`
   ADD CONSTRAINT `chambrehotes_ibfk_1` FOREIGN KEY (`ID_HEBERGEMENT`) REFERENCES `hebergement` (`ID_HEBERGEMENT`);
-
---
--- Contraintes pour la table `contre_visite`
---
-ALTER TABLE `contre_visite`
-  ADD CONSTRAINT `contre_visite_ibfk_1` FOREIGN KEY (`ID_INSPECTEUR`) REFERENCES `inspecteur` (`ID_INSPECTEUR`),
-  ADD CONSTRAINT `contre_visite_ibfk_2` FOREIGN KEY (`ID_VISITE`) REFERENCES `visite` (`ID_VISITE`);
 
 --
 -- Contraintes pour la table `equipement`
@@ -467,13 +450,6 @@ ALTER TABLE `se_voit_attribuer`
   ADD CONSTRAINT `se_voit_attribuer_ibfk_1` FOREIGN KEY (`NUM_DEPARTEMENT`) REFERENCES `departement` (`NUM_DEPARTEMENT`),
   ADD CONSTRAINT `se_voit_attribuer_ibfk_2` FOREIGN KEY (`NUM_ANNEE`, `NUM_SEMAINE`) REFERENCES `semaine` (`NUM_ANNEE`, `NUM_SEMAINE`),
   ADD CONSTRAINT `se_voit_attribuer_ibfk_3` FOREIGN KEY (`ID_INSPECTEUR`) REFERENCES `inspecteur` (`ID_INSPECTEUR`);
-
---
--- Contraintes pour la table `visite`
---
-ALTER TABLE `visite`
-  ADD CONSTRAINT `visite_ibfk_1` FOREIGN KEY (`ID_INSPECTEUR`) REFERENCES `inspecteur` (`ID_INSPECTEUR`),
-  ADD CONSTRAINT `visite_ibfk_2` FOREIGN KEY (`ID_HEBERGEMENT`) REFERENCES `hebergement` (`ID_HEBERGEMENT`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

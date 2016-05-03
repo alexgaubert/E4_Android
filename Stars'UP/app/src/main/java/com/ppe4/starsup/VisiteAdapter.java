@@ -54,7 +54,6 @@ public class VisiteAdapter extends BaseAdapter {
         }
 
         TextView TVnom = (TextView) convertView.findViewById(R.id.TVnom);
-        TextView TVnote = (TextView) convertView.findViewById(R.id.TVnote);
 
 // getting billionaires data for the row
         Visite visite = visitesItems.get(position);
@@ -63,7 +62,6 @@ public class VisiteAdapter extends BaseAdapter {
         TVnom.setText(visite.getNom());
 
 // note
-        TVnote.setText("Note : " + String.valueOf(visite.getNote()));
 
         return convertView;
     }

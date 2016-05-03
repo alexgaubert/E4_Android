@@ -2,11 +2,7 @@
 	include 'config.php';
 
 	$liste = new Liste();
-
-	if(isset($_POST['idUtilisateur'])) { // Si l'id de l'utilisateur récupéré n'est pas nul
-		$idUtilisateur = $_POST['idUtilisateur'];
-		$liste->liste_visites($idUtilisateur);
-	}
+	$liste->liste_visites();
 
 	class Liste {
 		private $bdd;
@@ -17,15 +13,17 @@
 			$this->connexion = $this->bdd->getConnexion();
 		}
 
-		public function liste_visites($idUtilisateur) {
-			$requete = "SELECT test1, test2 FROM visite WHERE id_inspecteur='$idUtilisateur'";
+		public function liste_visites() {
+		    $requete = "SELECT * FROM visite";
 			$resultat = mysqli_query($this->connexion, $requete);
-			$donnee = mysqli_fetch_assoc($resultat);
+		    $json = array();
 
-			$json['test1'] = $donnee['test1'];
-			$json['test2'] = $donnee['test2'];
+		    while($row = mysqli_fetch_assoc($resultat))
+		    {
+		        $json[] = $row;
+		    }
 
-			echo json_encode($json);
+		    echo json_encode($json);
 			mysqli_close($this->connexion);
 		}
 	}

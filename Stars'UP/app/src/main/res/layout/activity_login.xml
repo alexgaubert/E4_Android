@@ -13,37 +13,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ETnomUtilisateur"
-        android:layout_marginTop="112dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/ETMDP"
-        android:layout_alignEnd="@+id/ETMDP"
-        android:hint="Nom d&apos;utilisateur" />
+        android:hint="Nom d&apos;utilisateur"
+        android:layout_above="@+id/ETMDP"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/ETMDP" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/ETMDP"
-        android:layout_below="@+id/ETnomUtilisateur"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp"
         android:hint="Mot de passe"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Connexion"
         android:id="@+id/Bconnexion"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="101dp" />
+        android:layout_below="@+id/ETMDP"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Veuillez vous connecter"
         android:id="@+id/textView"
+        android:textColor="#000000"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="77dp" />
 </RelativeLayout>

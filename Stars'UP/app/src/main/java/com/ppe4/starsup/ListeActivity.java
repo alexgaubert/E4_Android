@@ -32,7 +32,7 @@ public class ListeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_liste);
 
         String URL = "http://192.168.1.88/stars_up/liste.php";
-        ListView LVvisites = (ListView) findViewById(R.id.LVvisites);
+        final ListView LVvisites = (ListView) findViewById(R.id.LVvisites);
 
         adapteur = new VisiteAdapter(this, Lvisites);
         assert LVvisites != null;
@@ -49,6 +49,7 @@ public class ListeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent I = new Intent(ListeActivity.this , DetailsActivity.class);
                 I.putExtra("id_visite", Lvisites.get(position).getNum());
+                I.putExtra("test1", Lvisites.get(position).getNom());
                 mApp.setId_visite(Lvisites.get(position).getNum());
                 startActivity(I);
             }
@@ -67,7 +68,6 @@ public class ListeActivity extends AppCompatActivity {
                             Visite V = new Visite();
                             V.setNum(JO.getString("id_visite"));
                             V.setNom(JO.getString("test1"));
-                            V.setNote(JO.getString("nbetoileplus"));
                             Lvisites.add(V);
                         }
                     } catch (JSONException JE) {
