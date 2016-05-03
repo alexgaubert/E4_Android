@@ -16,17 +16,19 @@
         android:layout_marginTop="112dp"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/ETMDP"
-        android:layout_alignEnd="@+id/ETMDP" />
+        android:layout_alignEnd="@+id/ETMDP"
+        android:hint="Nom d&apos;utilisateur" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/ETMDP"
         android:layout_below="@+id/ETnomUtilisateur"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp" />
+        android:layout_marginTop="53dp"
+        android:hint="Mot de passe"
+        android:inputType="textPassword" />
 
     <Button
         android:layout_width="wrap_content"
@@ -36,4 +38,12 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="101dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

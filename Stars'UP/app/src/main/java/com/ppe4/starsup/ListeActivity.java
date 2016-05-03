@@ -1,80 +1,101 @@
 package com.ppe4.starsup;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.toolbox.JsonArrayRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class ListeActivity extends AppCompatActivity {
-    private ListView LVvisites;
-    private TextView tv;
-
-    private static final String URL = "http://192.168.1.88/stars_up/liste.php";
-
-    private RequestQueue fileRequete;
-    private StringRequest requete;
-    private JSONObject objetJSON;
+    private List<Visite> Lvisites = new ArrayList<>();
+    private ProgressDialog PD;
+    private VisiteAdapter adapteur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste);
-        tv = (TextView) findViewById(R.id.textView);
 
-        MonApplication mApp = ((MonApplication)getApplicationContext());
-        final String id_session = mApp.getId_session();
+        String URL = "http://192.168.1.88/stars_up/liste.php";
+        ListView LVvisites = (ListView) findViewById(R.id.LVvisites);
 
-        LVvisites = (ListView) findViewById(R.id.LVvisites);
-        final List<Visite> listeVisites = new ArrayList<>();
+        adapteur = new VisiteAdapter(this, Lvisites);
+        assert LVvisites != null;
+        LVvisites.setAdapter(adapteur);
 
-        VisiteAdapter adapter = new VisiteAdapter(this, listeVisites);
-        LVvisites.setAdapter(adapter);
+        final MonApplication mApp = ((MonApplication)getApplicationContext());
 
+        PD = new ProgressDialog(this);
+        PD.setMessage("Chargement des visites en cours...");
+        PD.show();
 
-
-        fileRequete = Volley.newRequestQueue(this);
-
-        requete = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+        LVvisites.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onResponse(String reponse) {
-                try {
-                    objetJSON = new JSONObject(reponse);
-                    listeVisites.add(new Visite(objetJSON.getString("test1"), objetJSON.getString("test2")));
-                    tv.setText(objetJSON.getString("test1"));
-                } catch (JSONException exception) {
-                    exception.printStackTrace();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent I = new Intent(ListeActivity.this , DetailsActivity.class);
+                I.putExtra("id_visite", Lvisites.get(position).getNum());
+                mApp.setId_visite(Lvisites.get(position).getNum());
+                startActivity(I);
+            }
+        });
+
+        JsonArrayRequest JARvisites = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray reponse) {
+                hidePDialog();
+                JSONObject JO;
+                for(int i = 0; i < reponse.length(); i++) {
+                    try {
+                        JO = reponse.getJSONObject(i);
+
+                        if(Objects.equals(JO.getString("id_inspecteur"), mApp.getId_session())){ //TODO Mettre les bons éléments à récup
+                            Visite V = new Visite();
+                            V.setNum(JO.getString("id_visite"));
+                            V.setNom(JO.getString("test1"));
+                            V.setNote(JO.getString("nbetoileplus"));
+                            Lvisites.add(V);
+                        }
+                    } catch (JSONException JE) {
+                        JE.printStackTrace();
+                    }
                 }
+                adapteur.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError VE) {
+                hidePDialog();
             }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> dictionnaire = new HashMap<>();
-                dictionnaire.put("idUtilisateur", id_session);
+        });
 
-                return dictionnaire;
-            }
-        };
-        fileRequete.add(requete);
+        MonApplication.getInstance().addToRequestQueue(JARvisites);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        hidePDialog();
+    }
+
+    private void hidePDialog() {
+        if (PD != null) {
+            PD.dismiss();
+            PD = null;
+        }
     }
 }

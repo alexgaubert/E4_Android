@@ -3,9 +3,13 @@ package com.ppe4.starsup;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,10 +26,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity {
-    private EditText ETnomUtilisateur, ETMDP;
-    private Button Bconnexion;
-    private static final String URL = "http://192.168.1.88/stars_up/login.php";
+public class DetailsActivity extends AppCompatActivity {
+    private TextView TVnom;
+    private RatingBar RBnote;
+    private EditText ETcommentaire;
+    private CheckBox CBcontrevisite;
+    private Button Bvalider;
+    private static final String URL = "http://192.168.1.88/stars_up/details.php";
     private RequestQueue fileRequete;
     private StringRequest requete;
     private JSONObject JO;
@@ -33,19 +40,26 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_details);
 
-        ETnomUtilisateur = (EditText) findViewById(R.id.ETnomUtilisateur);
-        ETMDP = (EditText) findViewById(R.id.ETMDP);
-        Bconnexion = (Button) findViewById(R.id.Bconnexion);
-
-        final MonApplication mApp = ((MonApplication)getApplicationContext());
+        TVnom = (TextView) findViewById(R.id.TVnom);
+        RBnote = (RatingBar) findViewById(R.id.RBnote);
+        ETcommentaire = (EditText) findViewById(R.id.ETcommentaire);
+        CBcontrevisite = (CheckBox) findViewById(R.id.CBcontrevisite);
+        Bvalider = (Button) findViewById(R.id.Bvalider);
 
         fileRequete = Volley.newRequestQueue(this);
 
-        Bconnexion.setOnClickListener(new View.OnClickListener() {
+        final MonApplication mApp = ((MonApplication)getApplicationContext());
+
+        Intent I = getIntent();
+        Bundle bundle = I.getExtras();
+
+        TVnom.setText((String)bundle.get("id_visite"));
+
+        Bvalider.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 requete = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String reponse) {
@@ -53,9 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                             JO = new JSONObject(reponse);
 
                             if (JO.names().get(0).equals("succes")) {
-                                mApp.setId_session(JO.getString("id_inspecteur"));
                                 Toast.makeText(getApplicationContext(), JO.getString("succes"), Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), ListeActivity.class));
                             } else {
                                 Toast.makeText(getApplicationContext(), JO.getString("erreur"), Toast.LENGTH_SHORT).show();
                             }
@@ -71,9 +83,14 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> dictionnaire = new HashMap<>();
-                        dictionnaire.put("nomUtilisateur", ETnomUtilisateur.getText().toString());
-                        dictionnaire.put("MDP", ETMDP.getText().toString());
-
+                        dictionnaire.put("numVisite", mApp.getId_visite());
+                        dictionnaire.put("noteVisite", String.valueOf(RBnote.getRating()));
+                        dictionnaire.put("commentaireVisite", ETcommentaire.getText().toString());
+                        if(CBcontrevisite.isChecked()){
+                            dictionnaire.put("contreVisite", "1");
+                        } else {
+                            dictionnaire.put("contreVisite", "0");
+                        }
                         return dictionnaire;
                     }
                 };
