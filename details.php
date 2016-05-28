@@ -27,7 +27,7 @@
 		}
 
 		public function envoi_details($numVisite, $noteVisite, $commentaireVisite, $contreVisite) {
-			$requete = "UPDATE visite SET nbetoileplus='$noteVisite', commentaire='$commentaireVisite' WHERE id_visite='$numVisite'";
+			$requete = "UPDATE visite SET note='$noteVisite', commentaire='$commentaireVisite', contreVisite='$contreVisite' WHERE id_visite='$numVisite'";
 
 			if(mysqli_query($this->connexion, $requete)) { // Si les identifiants correspondent bien
 				$json['succes'] = 'Les détails ont bien été envoyés';

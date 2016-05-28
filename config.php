@@ -1,8 +1,8 @@
 <?php
-	define('adresse', 'eu-cdbr-west-01.cleardb.com');
-	define('utilisateur', 'b8d6aadca68b20');
-	define('mdp', 'a65b186a');
-	define('nom_bdd', 'heroku_d024a4013e65b6c');
+	define('adresse', 'localhost');
+	define('utilisateur', 'root');
+	define('mdp', '');
+	define('nom_bdd', 'bd_ppe4_gaubertetco');
 
 	class Connexion_BDD {
 		private $connexion;
