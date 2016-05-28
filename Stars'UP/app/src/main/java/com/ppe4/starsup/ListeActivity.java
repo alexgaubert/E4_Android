@@ -63,6 +63,7 @@ public class ListeActivity extends AppCompatActivity {
                 for(int i = 0; i < reponse.length(); i++) {
                     try {
                         JO = reponse.getJSONObject(i);
+                        Log.d("test", mApp.getId_session());
 
                         if(Objects.equals(JO.getString("id_inspecteur"), mApp.getId_session())){
                             Visite V = new Visite();
