@@ -31,7 +31,7 @@ public class ListeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste);
 
-        String URL = "http://192.168.1.88/stars_up/liste.php";
+        String URL = "https://starsup.herokuapp.com/liste.php";
         final ListView LVvisites = (ListView) findViewById(R.id.LVvisites);
 
         adapteur = new VisiteAdapter(this, Lvisites);
@@ -64,10 +64,10 @@ public class ListeActivity extends AppCompatActivity {
                     try {
                         JO = reponse.getJSONObject(i);
 
-                        if(Objects.equals(JO.getString("id_inspecteur"), mApp.getId_session())){ //TODO Mettre les bons éléments à récup
+                        if(Objects.equals(JO.getString("v.id_inspecteur"), mApp.getId_session())){ //TODO Mettre les bons éléments à récup
                             Visite V = new Visite();
-                            V.setNum(JO.getString("id_visite"));
-                            V.setNom(JO.getString("test1"));
+                            V.setNum(JO.getString("v.id_visite"));
+                            V.setNom(JO.getString("r.nom"));
                             Lvisites.add(V);
                         }
                     } catch (JSONException JE) {

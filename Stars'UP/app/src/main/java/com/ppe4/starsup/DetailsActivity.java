@@ -32,7 +32,7 @@ public class DetailsActivity extends AppCompatActivity {
     private EditText ETcommentaire;
     private CheckBox CBcontrevisite;
     private Button Bvalider;
-    private static final String URL = "http://192.168.1.88/stars_up/details.php";
+    private static final String URL = "https://starsup.herokuapp.com/details.php";
     private RequestQueue fileRequete;
     private StringRequest requete;
     private JSONObject JO;

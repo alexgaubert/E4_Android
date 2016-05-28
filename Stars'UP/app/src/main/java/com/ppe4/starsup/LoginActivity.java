@@ -25,7 +25,7 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
     private EditText ETnomUtilisateur, ETMDP;
     private Button Bconnexion;
-    private static final String URL = "http://192.168.1.88/stars_up/login.php";
+    private static final String URL = "https://starsup.herokuapp.com/login.php";
     private RequestQueue fileRequete;
     private StringRequest requete;
     private JSONObject JO;
