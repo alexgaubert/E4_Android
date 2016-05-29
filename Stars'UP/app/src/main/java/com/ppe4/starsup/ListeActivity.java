@@ -65,10 +65,10 @@ public class ListeActivity extends AppCompatActivity {
                         JO = reponse.getJSONObject(i);
                         Log.d("test", mApp.getId_session());
 
-                        if(Objects.equals(JO.getString("v.id_inspecteur"), mApp.getId_session())){
+                        if(Objects.equals(JO.getString("id_inspecteur"), mApp.getId_session())){
                             Visite V = new Visite();
-                            V.setNum(JO.getString("v.id_visite"));
-                            V.setNom(JO.getString("r.nom"));
+                            V.setNum(JO.getString("id_visite"));
+                            V.setNom(JO.getString("nom"));
                             Lvisites.add(V);
                         }
                     } catch (JSONException JE) {
