@@ -14,7 +14,7 @@
 		}
 
 		public function liste_visites() {
-		    $requete = "SELECT v.id_visite, v.id_inspecteur, r.nom FROM visite AS v
+		    $requete = "SELECT v.id_visite AS id_visite, v.id_inspecteur AS id_inspecteur, r.nom AS nom FROM visite AS v
 		    			INNER JOIN restaurant AS r ON r.id_restaurant=v.id_restaurant";
 			$resultat = mysqli_query($this->connexion, $requete);
 		    $json = array();
