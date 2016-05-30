@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                                 mApp.setId_session(JO.getString("id_inspecteur"));
                                 Toast.makeText(getApplicationContext(), JO.getString("succes"), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), ListeActivity.class));
+                                ETnomUtilisateur.setText("");
+                                ETMDP.setText("");
                             } else {
                                 Toast.makeText(getApplicationContext(), JO.getString("erreur"), Toast.LENGTH_SHORT).show();
                             }
